@@ -1,0 +1,135 @@
+\documentclass[titlepage]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[table]{xcolor}
+
+\title{Návrh automatu}
+\author{Tomáš Maršálek}
+\date{15.\,prosince 2012}
+% TODO email, KIV/PRJ5, osobní číslo
+
+
+
+\begin{document}
+\maketitle
+\section{Zadání}
+\large{\textbf{Zadání semestrální práce - A10B0632P}}
+\begin{itemize}
+	\item Navrhněte automat, který pracuje podle zobrazeného schématu.
+	\item Zvolte kódování stavů a vstupů (černá šipka představuje impuls I1,
+červená šipka představuje impuls I2). Pokud nepřichází žádný impuls, automat
+setrvává v aktuálním stavu.
+	\item Zamyslete se, zda použijete synchronní nebo asynchronní klopné
+obvody, a vhodně zvolte jejich typ (JK nebo D).
+	\item Vytvořte tabulku přechodů a výstupů se zakódovanými stavy, vstupy a
+výstupy.
+	\item Sestavte Karnaughovy mapy budících a výstupních funkcí a provďte
+minimalizaci. Tyto funkce zapište výrazem.
+	\item Nakreslete schéma zapojení obvodu.
+	\item Nezapomeňte na nulový vstup. Nulový vstup znamená, že nepřichází do
+obvodu žádný vstupní signál (tj. na všechny vodiče vstupu přijde 0 - nebo 1,
+pokud si to tak zvolíte). Vzhledem k tomu, že máte ještě navíc další dva druhy
+vstupních impulsů (I1, I2), nestačí vám jeden vodič pro vstup.
+\end{itemize}
+
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=10cm]{graf.pdf}
+	% \caption{}
+\end{figure}
+\clearpage
+
+\section{Kódování}
+\subsection{Stavy}
+\begin{center}
+\begin{tabular}{|l|l|l|l|}
+\hline
+& {\bf $s_1$} & {\bf $s_2$} & {\bf $s_3$}\\
+\hline
+A & 0 & 0 & 0 \\
+B & 0 & 0 & 1 \\
+C & 0 & 1 & 0 \\
+D & 0 & 1 & 1 \\
+E & 1 & 0 & 0 \\
+F & 1 & 0 & 1 \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Vstupy}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+& {\bf $x_1$} & {\bf $x_2$} \\
+\hline
+Nic & 0 & 0 \\
+Červená & 0 & 1 \\
+Černá & 1 & 0 \\
+\hline
+\end{tabular}
+\end{center}
+
+\subsection{Výstupy}
+\begin{center}
+\begin{tabular}{|l|l|l|}
+\hline
+& {\bf $y_1$} & {\bf $y_2$} \\
+\hline
+x & 0 & 0 \\
+y & 0 & 1 \\
+z & 1 & 0 \\
+\hline
+\end{tabular}
+\end{center}
+
+
+\section{Tabulka přechodů a výstupů}
+\begin{center}
+\rowcolors{2}{gray!25}{white}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|l|}
+\hline
+{\bf $x_1$} & {\bf $x_2$} & {\bf $s_1'$} & {\bf $s_2'$} & {\bf $s_3'$} & {\bf
+$s_1$} & {\bf $s_2$} & {\bf $s_3$} & {\bf $y_1$} & {\bf $y_2$} & {\bf $j_1$} & {\bf $k_1$} & {\bf $j_2$} & {\bf $k_2$} & {\bf $j_3$} & {\bf $k_3$}\\
+\hline
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - & 0 & - & 0 & - \\
+0 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & - & 0 & - & - & 0 \\
+0 & 0 & 0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & - & - & 0 & 0 & - \\
+0 & 0 & 0 & 1 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & - & - & 0 & - & 0 \\
+0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 & 0 & 1 & - & 0 & 0 & - & 0 & - \\
+0 & 0 & 1 & 0 & 1 & 1 & 0 & 1 & 0 & 0 & - & 0 & 0 & - & - & 0 \\
+0 & 0 & 1 & 1 & 0 & - & - & - & - & - & - & - & - & - & - & - \\
+0 & 0 & 1 & 1 & 1 & - & - & - & - & - & - & - & - & - & - & - \\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & 0 & - & 0 & - & 1 & - \\
+0 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 0 & - & 1 & - & - & 1 \\
+0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & - & - & 1 & 0 & - \\
+0 & 1 & 0 & 1 & 1 & 1 & 0 & 0 & 0 & 1 & 1 & - & - & 1 & - & 1 \\
+0 & 1 & 1 & 0 & 0 & 1 & 0 & 1 & 0 & 0 & - & 0 & 0 & - & 1 & - \\
+0 & 1 & 1 & 0 & 1 & - & - & - & - & - & - & - & - & - & - & - \\
+0 & 1 & 1 & 1 & 0 & - & - & - & - & - & - & - & - & - & - & - \\
+0 & 1 & 1 & 1 & 1 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 0 & 0 & 0 & 0 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 0 & 0 & 0 & 1 & 1 & 0 & 1 & 0 & 0 & 1 & - & 0 & - & - & 0 \\
+1 & 0 & 0 & 1 & 0 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 0 & 0 & 1 & 1 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 & 1 & - & 1 & 0 & - & 1 & - \\
+1 & 0 & 1 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & - & 1 & 0 & - & - & 1 \\
+1 & 0 & 1 & 1 & 0 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 0 & 1 & 1 & 1 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 1 & 0 & 0 & 0 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 1 & 0 & 0 & 1 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 1 & 0 & 1 & 0 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 1 & 0 & 1 & 1 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 1 & 1 & 0 & 0 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 1 & 1 & 0 & 1 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 1 & 1 & 1 & 0 & - & - & - & - & - & - & - & - & - & - & - \\
+1 & 1 & 1 & 1 & 1 & - & - & - & - & - & - & - & - & - & - & - \\
+
+\hline
+\end{tabular}
+\end{center}
+\section{Minimalizace funkcí}
+\section{Budící a výstupní funkce}
+\section{Schéma sekvenčního obvodu}
+\end{document}
