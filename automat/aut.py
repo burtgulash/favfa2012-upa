@@ -53,7 +53,7 @@ def make_table(print_empty_rows, delimiter, end):
 
 			jks = [j1 + k1, j2 + k2, j3 + k3]
 
-			out = y[new]
+			out = y[s]
 			res += [bn(new, 3), bn(out, 2)] + jks
 
 			print delimiter.join(list(delim_between.join(res))),
