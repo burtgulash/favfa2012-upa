@@ -21,6 +21,14 @@ red = [1, 2, 0, 4, 5, -1]
 black = [-1, 5, -1, -1, 1, 0]
 y = [0, 1, 2, 2, 1, 0]
 
+row = []
+for r in range(4):
+	g = []
+	for c in range(8):
+		g += [None]
+	row += [g]
+
+
 def make_table(print_empty_rows, delimiter, end):
 	delim_between = ""
 
@@ -33,6 +41,7 @@ def make_table(print_empty_rows, delimiter, end):
 			if i == 3 or s >= 6:
 				res += ["---"] + 4*["--"]
 				if print_empty_rows:
+					row[i][s] = "-"
 					print delimiter.join(list(delim_between.join(res))),
 					print end
 				continue
@@ -56,11 +65,21 @@ def make_table(print_empty_rows, delimiter, end):
 			out = y[s]
 			res += [bn(new, 3), bn(out, 2)] + jks
 
+			# Specify variable for Karnaugh map here
+			row[i][s] = j1
+
 			print delimiter.join(list(delim_between.join(res))),
 			print end
 
+
+def print_m(m):
+	row_seq = [3, 2, 0, 1]
+	col_seq = [7, 6, 4, 5, 1, 0, 2, 3]
+	for r in row_seq:
+		for c in col_seq:
+			print row[r][c],
+		print
+
 if __name__ == "__main__":
-	# print r"\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c|c}"
-	make_table(False, " & ", r"\\")
-	# print r"\hline"
-	# print r"\end{tabular}"
+	make_table(True, " & ", r"\\")
+	print_m(row)
