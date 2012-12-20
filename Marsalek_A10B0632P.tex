@@ -133,8 +133,8 @@ endloop:jr      $ra
 # void _to_hex(int n as $a0, void *buf as $a1, int len as $a2)
 _to_hex:
         move    $v0, $a1
-        move    $t0, $a2
-        addu    $v0, $v0, $t0
+        move    $t0, $a2            # DATOVY HAZARD
+        addu    $v0, $v0, $t0       # DATOVY HAZARD
         subu    $v0, $v0, 1
         sb      $0, ($v0)
 loop:   subu    $v0, $v0, 1
@@ -203,10 +203,10 @@ main:
         li      $v0, 4
         nop
         syscall
-        la      $a0, buf
-        lw      $a1, len
-        li      $v0, 8
-        nop
+        la      $a0, buf            # ZPOZDENI CTENI Z PAMETI
+        lw      $a1, len            # ZPOZDENI CTENI Z PAMETI
+        li      $v0, 8              # ZPOZDENI CTENI Z PAMETI
+        nop                         # ZPOZDENI CTENI Z PAMETI
         syscall
         jal     _from_hex
         nop
