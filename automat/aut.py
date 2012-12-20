@@ -66,7 +66,7 @@ def make_table(print_empty_rows, delimiter, end):
 			res += [bn(new, 3), bn(out, 2)] + jks
 
 			# Specify variable for Karnaugh map here
-			row[i][s] = j1
+			row[i][s] = k3
 
 			print delimiter.join(list(delim_between.join(res))),
 			print end
